@@ -566,9 +566,9 @@
             'dev_requirement' => false,
         ),
         'php-di/php-di' => array(
-            'pretty_version' => '7.0.10',
-            'version' => '7.0.10.0',
-            'reference' => '0d1ed64126577e9a095b3204dcaee58cf76432c2',
+            'pretty_version' => '7.0.11',
+            'version' => '7.0.11.0',
+            'reference' => '32f111a6d214564520a57831d397263e8946c1d2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../php-di/php-di',
             'aliases' => array(),

@@ -127,7 +127,7 @@ $CONFIG = [
     "EXIT_IMPERSONATION_TEMPLATE" => '<div><a title="%s" class="exit-user" data-ew-action="submit" data-action="switchuser" data-method="R" data-select="S" data-data="{&quot;switchuser&quot;:&quot;_exit&quot;}">%s</a></div>',
 
     // Environment
-    "ENVIRONMENT" => "development",
+    "ENVIRONMENT" => "production",
 
     // Container
     "COMPILE_CONTAINER" => false,
@@ -153,8 +153,8 @@ $CONFIG = [
     "LAZY_LOAD" => true, // Lazy loading of images
     "BODY_CLASS" => "hold-transition layout-fixed layout-navbar-fixed sidebar-mini", // CSS class(es) for <body> tag
     "BODY_STYLE" => "", // CSS style for <body> tag
-    "SIDEBAR_CLASS" => "main-sidebar sidebar-dark-purple elevation-4", // CSS class(es) for sidebar
-    "NAVBAR_CLASS" => "main-header navbar navbar-expand navbar-purple navbar-dark border-bottom-0", // CSS class(es) for navbar
+    "SIDEBAR_CLASS" => "main-sidebar sidebar-dark-green elevation-4", // CSS class(es) for sidebar
+    "NAVBAR_CLASS" => "main-header navbar navbar-expand navbar-green navbar-dark border-bottom-0", // CSS class(es) for navbar
     "CLASS_PREFIX" => "_", // Prefix for invalid CSS class names
     "USE_JAVASCRIPT_MESSAGE" => true, // Use JavaScript message (toast)
 	"MS_USE_MESSAGE_BOX_INSTEAD_OF_TOAST" => false, // Use Alertify message box, make sure USE_JAVASCRIPT_MESSAGE always set to true!

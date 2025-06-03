@@ -122,7 +122,7 @@ loadjs.ready("head", function () {
 ?>
 <?php if ($Page->getCurrentDetailTable() != "") { ?>
 <?php if (Container("users")->Count > 0) { // Begin of added by Masino Sinaga, September 16, 2023 ?>
-<h4 class="ew-detail-caption"><?= $Language->tablePhrase("users", "TblCaption") ?>&nbsp;<?= sprintf($Language->phrase("DetailCount"), "purple", Container("users")->Count) ?></h4>
+<h4 class="ew-detail-caption"><?= $Language->tablePhrase("users", "TblCaption") ?>&nbsp;<?= sprintf($Language->phrase("DetailCount"), "green", Container("users")->Count) ?></h4>
 <?php } else { ?>
 <h4 class="ew-detail-caption"><?= $Language->tablePhrase("users", "TblCaption") ?></h4>
 <?php } // End of added by Masino Sinaga, September 16, 2023 ?>

@@ -1493,7 +1493,7 @@ class HelpCategoriesList extends HelpCategories
                 $detailFilter = $detailTbl->applyUserIDFilters($detailFilter);
                 $detailTbl->Count = $detailTbl->loadRecordCount($detailFilter);
 				if (Container("help")->Count > 0) // Display if > 0 added by Masino Sinaga, September 16, 2023
-					$body .= "&nbsp;" . sprintf($this->language->phrase("DetailCount"), "purple", Container("help")->Count);
+					$body .= "&nbsp;" . sprintf($this->language->phrase("DetailCount"), "green", Container("help")->Count);
             }
             $body = "<a class=\"btn btn-default ew-row-link ew-detail" . ($this->ListOptions->UseDropDownButton ? " dropdown-toggle" : "") . "\" data-action=\"list\" href=\"" . HtmlEncode("helplist?" . Config("TABLE_SHOW_MASTER") . "=help_categories&" . GetForeignKeyUrl("fk_Category_ID", $this->Category_ID->CurrentValue) . "") . "\">" . $body . "</a>";
             $links = "";
@@ -1591,7 +1591,7 @@ class HelpCategoriesList extends HelpCategories
                 }
                 $detailFilters[$detailTbl->TableVar] = $detailFilter;
                 // Begin of modification by Masino Sinaga, December 11, 2024
-        		// $label .= "&nbsp;" . JsEncode(sprintf($this->language->phrase("DetailCount"), "purple", $detailTbl->Count));
+        		// $label .= "&nbsp;" . JsEncode(sprintf($this->language->phrase("DetailCount"), "green", $detailTbl->Count));
         		// End of modification by Masino Sinaga, December 11, 2024
                 $url .= "&detailfilters=%f";
 
