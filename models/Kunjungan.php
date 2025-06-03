@@ -169,6 +169,9 @@ class Kunjungan extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->id_pasien->Lookup = new Lookup($this->id_pasien, 'pasien', false, 'id_pasien', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
                 break;
+            case "id-ID":
+                $this->id_pasien->Lookup = new Lookup($this->id_pasien, 'pasien', false, 'id_pasien', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
+                break;
             default:
                 $this->id_pasien->Lookup = new Lookup($this->id_pasien, 'pasien', false, 'id_pasien', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
                 break;
@@ -207,6 +210,9 @@ class Kunjungan extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
                 break;
+            case "id-ID":
+                $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
+                break;
             default:
                 $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
                 break;
@@ -241,6 +247,9 @@ class Kunjungan extends DbTable implements LookupTableInterface
         global $CurrentLanguage;
         switch ($CurrentLanguage) {
             case "en-US":
+                $this->id_jadwal->Lookup = new Lookup($this->id_jadwal, 'jadwal_praktek', false, 'id_jadwal', ["id_dokter","hari","",""], '', "", [], [], [], [], [], [], false, '', '', "CONCAT(COALESCE(`id_dokter`, ''),'" . ValueSeparator(1, $this->id_jadwal) . "',COALESCE(`hari`,''))");
+                break;
+            case "id-ID":
                 $this->id_jadwal->Lookup = new Lookup($this->id_jadwal, 'jadwal_praktek', false, 'id_jadwal', ["id_dokter","hari","",""], '', "", [], [], [], [], [], [], false, '', '', "CONCAT(COALESCE(`id_dokter`, ''),'" . ValueSeparator(1, $this->id_jadwal) . "',COALESCE(`hari`,''))");
                 break;
             default:
@@ -345,6 +354,9 @@ class Kunjungan extends DbTable implements LookupTableInterface
         global $CurrentLanguage;
         switch ($CurrentLanguage) {
             case "en-US":
+                $this->status->Lookup = new Lookup($this->status, 'kunjungan', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+                break;
+            case "id-ID":
                 $this->status->Lookup = new Lookup($this->status, 'kunjungan', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
             default:

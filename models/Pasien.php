@@ -256,6 +256,9 @@ class Pasien extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->jenis_kelamin->Lookup = new Lookup($this->jenis_kelamin, 'pasien', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
+            case "id-ID":
+                $this->jenis_kelamin->Lookup = new Lookup($this->jenis_kelamin, 'pasien', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+                break;
             default:
                 $this->jenis_kelamin->Lookup = new Lookup($this->jenis_kelamin, 'pasien', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;

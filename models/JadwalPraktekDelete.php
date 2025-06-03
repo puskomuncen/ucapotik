@@ -407,6 +407,7 @@ class JadwalPraktekDelete extends JadwalPraktek
 		// End of Compare Root URL by Masino Sinaga, September 10, 2023
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->id_dokter);
         $this->setupLookupOptions($this->hari);
 
         // Set up Breadcrumb
@@ -639,8 +640,28 @@ class JadwalPraktekDelete extends JadwalPraktek
             $this->id_jadwal->ViewValue = $this->id_jadwal->CurrentValue;
 
             // id_dokter
-            $this->id_dokter->ViewValue = $this->id_dokter->CurrentValue;
-            $this->id_dokter->ViewValue = FormatNumber($this->id_dokter->ViewValue, $this->id_dokter->formatPattern());
+            $curVal = strval($this->id_dokter->CurrentValue);
+            if ($curVal != "") {
+                $this->id_dokter->ViewValue = $this->id_dokter->lookupCacheOption($curVal);
+                if ($this->id_dokter->ViewValue === null) { // Lookup from database
+                    $filterWrk = SearchFilter($this->id_dokter->Lookup->getTable()->Fields["id_dokter"]->searchExpression(), "=", $curVal, $this->id_dokter->Lookup->getTable()->Fields["id_dokter"]->searchDataType(), "DB");
+                    $sqlWrk = $this->id_dokter->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $conn = Conn();
+                    $rswrk = $conn->executeQuery($sqlWrk)->fetchAllAssociative();
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $rows = [];
+                        foreach ($rswrk as $row) {
+                            $rows[] = $this->id_dokter->Lookup->renderViewRow($row);
+                        }
+                        $this->id_dokter->ViewValue = $this->id_dokter->displayValue($rows[0]);
+                    } else {
+                        $this->id_dokter->ViewValue = FormatNumber($this->id_dokter->CurrentValue, $this->id_dokter->formatPattern());
+                    }
+                }
+            } else {
+                $this->id_dokter->ViewValue = null;
+            }
 
             // hari
             if (strval($this->hari->CurrentValue) != "") {
@@ -821,6 +842,8 @@ class JadwalPraktekDelete extends JadwalPraktek
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_id_dokter":
+                    break;
                 case "x_hari":
                     break;
                 default:

@@ -166,6 +166,9 @@ class Transaksi extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_pasien","","",""], '', "", [], [], [], [], [], [], false, '', '', "`id_pasien`");
                 break;
+            case "id-ID":
+                $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_pasien","","",""], '', "", [], [], [], [], [], [], false, '', '', "`id_pasien`");
+                break;
             default:
                 $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_pasien","","",""], '', "", [], [], [], [], [], [], false, '', '', "`id_pasien`");
                 break;
@@ -225,6 +228,9 @@ class Transaksi extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->metode_pembayaran->Lookup = new Lookup($this->metode_pembayaran, 'transaksi', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
+            case "id-ID":
+                $this->metode_pembayaran->Lookup = new Lookup($this->metode_pembayaran, 'transaksi', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+                break;
             default:
                 $this->metode_pembayaran->Lookup = new Lookup($this->metode_pembayaran, 'transaksi', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
@@ -257,6 +263,9 @@ class Transaksi extends DbTable implements LookupTableInterface
         global $CurrentLanguage;
         switch ($CurrentLanguage) {
             case "en-US":
+                $this->status_pembayaran->Lookup = new Lookup($this->status_pembayaran, 'transaksi', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+                break;
+            case "id-ID":
                 $this->status_pembayaran->Lookup = new Lookup($this->status_pembayaran, 'transaksi', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
             default:

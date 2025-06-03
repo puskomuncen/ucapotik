@@ -22,7 +22,7 @@ loadjs.ready(["wrapper", "head"], function () {
 
         // Add fields
         .setFields([
-            ["id_dokter", [fields.id_dokter.visible && fields.id_dokter.required ? ew.Validators.required(fields.id_dokter.caption) : null, ew.Validators.integer], fields.id_dokter.isInvalid],
+            ["id_dokter", [fields.id_dokter.visible && fields.id_dokter.required ? ew.Validators.required(fields.id_dokter.caption) : null], fields.id_dokter.isInvalid],
             ["hari", [fields.hari.visible && fields.hari.required ? ew.Validators.required(fields.hari.caption) : null], fields.hari.isInvalid],
             ["jam_mulai", [fields.jam_mulai.visible && fields.jam_mulai.required ? ew.Validators.required(fields.jam_mulai.caption) : null, ew.Validators.time(fields.jam_mulai.clientFormatPattern)], fields.jam_mulai.isInvalid],
             ["jam_selesai", [fields.jam_selesai.visible && fields.jam_selesai.required ? ew.Validators.required(fields.jam_selesai.caption) : null, ew.Validators.time(fields.jam_selesai.clientFormatPattern)], fields.jam_selesai.isInvalid],
@@ -42,6 +42,7 @@ loadjs.ready(["wrapper", "head"], function () {
 
         // Dynamic selection lists
         .setLists({
+            "id_dokter": <?= $Page->id_dokter->toClientList($Page) ?>,
             "hari": <?= $Page->hari->toClientList($Page) ?>,
         })
         .build();
@@ -93,23 +94,43 @@ $Page->showMessage();
         <label id="elh_jadwal_praktek_id_dokter" for="x_id_dokter" class="<?= $Page->LeftColumnClass ?>"><?= $Page->id_dokter->caption() ?><?= $Page->id_dokter->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
         <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->id_dokter->cellAttributes() ?>>
 <span id="el_jadwal_praktek_id_dokter">
-<input type="<?= $Page->id_dokter->getInputTextType() ?>" name="x_id_dokter" id="x_id_dokter" data-table="jadwal_praktek" data-field="x_id_dokter" value="<?= $Page->id_dokter->getEditValue() ?>" size="30" placeholder="<?= HtmlEncode($Page->id_dokter->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->id_dokter->formatPattern()) ?>"<?= $Page->id_dokter->editAttributes() ?> aria-describedby="x_id_dokter_help">
-<?= $Page->id_dokter->getCustomMessage() ?>
-<div class="invalid-feedback"><?= $Page->id_dokter->getErrorMessage() ?></div>
+    <select
+        id="x_id_dokter"
+        name="x_id_dokter"
+        class="form-select ew-select<?= $Page->id_dokter->isInvalidClass() ?>"
+        <?php if (!$Page->id_dokter->IsNativeSelect) { ?>
+        data-select2-id="fjadwal_praktekadd_x_id_dokter"
+        <?php } ?>
+        data-table="jadwal_praktek"
+        data-field="x_id_dokter"
+        data-value-separator="<?= $Page->id_dokter->displayValueSeparatorAttribute() ?>"
+        data-placeholder="<?= HtmlEncode($Page->id_dokter->getPlaceHolder()) ?>"
+        <?= $Page->id_dokter->editAttributes() ?>>
+        <?= $Page->id_dokter->selectOptionListHtml("x_id_dokter") ?>
+    </select>
+    <?= $Page->id_dokter->getCustomMessage() ?>
+    <div class="invalid-feedback"><?= $Page->id_dokter->getErrorMessage() ?></div>
+<?= $Page->id_dokter->Lookup->getParamTag($Page, "p_x_id_dokter") ?>
+<?php if (!$Page->id_dokter->IsNativeSelect) { ?>
 <script<?= Nonce() ?>>
-loadjs.ready(['fjadwal_praktekadd', 'jqueryinputmask'], function() {
-	options = {
-		'alias': 'numeric',
-		'autoUnmask': true,
-		'jitMasking': false,
-		'groupSeparator': '<?php echo $GROUPING_SEPARATOR ?>',
-		'digits': 0,
-		'radixPoint': '<?php echo $DECIMAL_SEPARATOR ?>',
-		'removeMaskOnSubmit': true
-	};
-	ew.createjQueryInputMask("fjadwal_praktekadd", "x_id_dokter", jQuery.extend(true, "", options));
+loadjs.ready("fjadwal_praktekadd", function() {
+    var options = { name: "x_id_dokter", selectId: "fjadwal_praktekadd_x_id_dokter" },
+        el = document.querySelector("select[data-select2-id='" + options.selectId + "']");
+    if (!el)
+        return;
+    options.closeOnSelect = !options.multiple;
+    options.dropdownParent = el.closest("#ew-modal-dialog, #ew-add-opt-dialog");
+    if (fjadwal_praktekadd.lists.id_dokter?.lookupOptions.length) {
+        options.data = { id: "x_id_dokter", form: "fjadwal_praktekadd" };
+    } else {
+        options.ajax = { id: "x_id_dokter", form: "fjadwal_praktekadd", limit: ew.LOOKUP_PAGE_SIZE };
+    }
+    options.minimumResultsForSearch = Infinity;
+    options = Object.assign({}, ew.selectOptions, options, ew.vars.tables.jadwal_praktek.fields.id_dokter.selectOptions);
+    ew.createSelect(options);
 });
 </script>
+<?php } ?>
 </span>
 </div></div>
     </div>

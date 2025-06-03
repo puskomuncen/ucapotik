@@ -152,14 +152,29 @@ class JadwalPraktek extends DbTable implements LookupTableInterface
             false, // Force selection
             false, // Is Virtual search
             'FORMATTED TEXT', // View Tag
-            'TEXT' // Edit Tag
+            'SELECT' // Edit Tag
         );
         $this->id_dokter->InputTextType = "text";
         $this->id_dokter->Raw = true;
         $this->id_dokter->Nullable = false; // NOT NULL field
         $this->id_dokter->Required = true; // Required field
+        $this->id_dokter->setSelectMultiple(false); // Select one
+        $this->id_dokter->UsePleaseSelect = true; // Use PleaseSelect by default
+        $this->id_dokter->PleaseSelectText = $this->language->phrase("PleaseSelect"); // "PleaseSelect" text
+        global $CurrentLanguage;
+        switch ($CurrentLanguage) {
+            case "en-US":
+                $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
+                break;
+            case "id-ID":
+                $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
+                break;
+            default:
+                $this->id_dokter->Lookup = new Lookup($this->id_dokter, 'dokter', false, 'id_dokter', ["nama","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama`");
+                break;
+        }
         $this->id_dokter->DefaultErrorMessage = $this->language->phrase("IncorrectInteger");
-        $this->id_dokter->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN"];
+        $this->id_dokter->SearchOperators = ["=", "<>", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN"];
         $this->Fields['id_dokter'] = &$this->id_dokter;
 
         // hari
@@ -185,6 +200,9 @@ class JadwalPraktek extends DbTable implements LookupTableInterface
         global $CurrentLanguage;
         switch ($CurrentLanguage) {
             case "en-US":
+                $this->hari->Lookup = new Lookup($this->hari, 'jadwal_praktek', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+                break;
+            case "id-ID":
                 $this->hari->Lookup = new Lookup($this->hari, 'jadwal_praktek', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
                 break;
             default:
@@ -1225,8 +1243,28 @@ class JadwalPraktek extends DbTable implements LookupTableInterface
         $this->id_jadwal->ViewValue = $this->id_jadwal->CurrentValue;
 
         // id_dokter
-        $this->id_dokter->ViewValue = $this->id_dokter->CurrentValue;
-        $this->id_dokter->ViewValue = FormatNumber($this->id_dokter->ViewValue, $this->id_dokter->formatPattern());
+        $curVal = strval($this->id_dokter->CurrentValue);
+        if ($curVal != "") {
+            $this->id_dokter->ViewValue = $this->id_dokter->lookupCacheOption($curVal);
+            if ($this->id_dokter->ViewValue === null) { // Lookup from database
+                $filterWrk = SearchFilter($this->id_dokter->Lookup->getTable()->Fields["id_dokter"]->searchExpression(), "=", $curVal, $this->id_dokter->Lookup->getTable()->Fields["id_dokter"]->searchDataType(), "DB");
+                $sqlWrk = $this->id_dokter->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                $conn = Conn();
+                $rswrk = $conn->executeQuery($sqlWrk)->fetchAllAssociative();
+                $ari = count($rswrk);
+                if ($ari > 0) { // Lookup values found
+                    $rows = [];
+                    foreach ($rswrk as $row) {
+                        $rows[] = $this->id_dokter->Lookup->renderViewRow($row);
+                    }
+                    $this->id_dokter->ViewValue = $this->id_dokter->displayValue($rows[0]);
+                } else {
+                    $this->id_dokter->ViewValue = FormatNumber($this->id_dokter->CurrentValue, $this->id_dokter->formatPattern());
+                }
+            }
+        } else {
+            $this->id_dokter->ViewValue = null;
+        }
 
         // hari
         if (strval($this->hari->CurrentValue) != "") {
@@ -1396,8 +1434,28 @@ class JadwalPraktek extends DbTable implements LookupTableInterface
         $this->RowType = RowType::VIEW;
         if ($name == "id_dokter") {
             $clone = $this->id_dokter->getClone()->setViewValue($value);
-            $clone->ViewValue = $clone->CurrentValue;
-            $clone->ViewValue = FormatNumber($clone->ViewValue, $clone->formatPattern());
+            $curVal = strval($clone->CurrentValue);
+            if ($curVal != "") {
+                $clone->ViewValue = $clone->lookupCacheOption($curVal);
+                if ($clone->ViewValue === null) { // Lookup from database
+                    $filterWrk = SearchFilter($clone->Lookup->getTable()->Fields["id_dokter"]->searchExpression(), "=", $curVal, $clone->Lookup->getTable()->Fields["id_dokter"]->searchDataType(), "DB");
+                    $sqlWrk = $clone->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $conn = Conn();
+                    $rswrk = $conn->executeQuery($sqlWrk)->fetchAllAssociative();
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $rows = [];
+                        foreach ($rswrk as $row) {
+                            $rows[] = $clone->Lookup->renderViewRow($row);
+                        }
+                        $clone->ViewValue = $clone->displayValue($rows[0]);
+                    } else {
+                        $clone->ViewValue = FormatNumber($clone->CurrentValue, $clone->formatPattern());
+                    }
+                }
+            } else {
+                $clone->ViewValue = null;
+            }
             return $clone->getViewValue();
         }
         if ($name == "hari") {

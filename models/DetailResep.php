@@ -165,6 +165,9 @@ class DetailResep extends DbTable implements LookupTableInterface
             case "en-US":
                 $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_kunjungan","id_pasien","",""], '', "", [], [], [], [], [], [], false, '', '', "CONCAT(COALESCE(`id_kunjungan`, ''),'" . ValueSeparator(1, $this->id_kunjungan) . "',COALESCE(`id_pasien`,''))");
                 break;
+            case "id-ID":
+                $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_kunjungan","id_pasien","",""], '', "", [], [], [], [], [], [], false, '', '', "CONCAT(COALESCE(`id_kunjungan`, ''),'" . ValueSeparator(1, $this->id_kunjungan) . "',COALESCE(`id_pasien`,''))");
+                break;
             default:
                 $this->id_kunjungan->Lookup = new Lookup($this->id_kunjungan, 'kunjungan', false, 'id_kunjungan', ["id_kunjungan","id_pasien","",""], '', "", [], [], [], [], [], [], false, '', '', "CONCAT(COALESCE(`id_kunjungan`, ''),'" . ValueSeparator(1, $this->id_kunjungan) . "',COALESCE(`id_pasien`,''))");
                 break;
@@ -201,6 +204,9 @@ class DetailResep extends DbTable implements LookupTableInterface
         global $CurrentLanguage;
         switch ($CurrentLanguage) {
             case "en-US":
+                $this->id_obat->Lookup = new Lookup($this->id_obat, 'obat', false, 'id_obat', ["nama_obat","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama_obat`");
+                break;
+            case "id-ID":
                 $this->id_obat->Lookup = new Lookup($this->id_obat, 'obat', false, 'id_obat', ["nama_obat","","",""], '', "", [], [], [], [], [], [], false, '', '', "`nama_obat`");
                 break;
             default:
