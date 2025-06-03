@@ -28,7 +28,7 @@ FLUSH PRIVILEGES;
 EXIT;
 
 
-4. Upload Aplikasi PHPMaker
+4. Upload Aplikasi 
 Buat direktori untuk aplikasi
 
 sudo mkdir -p /var/www/ucapotik
@@ -76,7 +76,7 @@ server {
         deny all;
     }
 
-    # Untuk PHPMaker (jika ada file khusus)
+    # Untuk anda (jika ada file khusus)
     location ~* ^/(api|css|js|images|uploads)/ {
         try_files $uri $uri/ =404;
     }
@@ -85,7 +85,7 @@ server {
 
 Aktifkan Konfigurasi
 
-sudo ln -s /etc/nginx/sites-available/aplikasi_phpmaker /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/aplikasi_anda /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 
@@ -106,13 +106,13 @@ Restart PHP-FPM:
 sudo systemctl restart php8.2-fpm
 
 
-7. Konfigurasi Aplikasi PHPMaker
+7. Konfigurasi Aplikasi 
 Sesuaikan file konfigurasi database
 
 Edit file konfigurasi database aplikasi (biasanya /folderaplikasi/src/config.developmet.php atau config.production.php dengan detail database yang telah dibuat.
 Jalankan migrasi database (jika ada)
 
-Jika aplikasi PHPMaker Anda memiliki migrasi database, jalankan:
+Jika aplikasi Anda memiliki migrasi database, jalankan:
 
 8. Install SSL (Opsional)
 
@@ -150,5 +150,6 @@ Troubleshooting
 
     Jika ada error permission:
 
-sudo chown -R www-data:www-data /var/www/aplikasi_phpmaker
-sudo chmod -R 755 /var/www/aplikasi_phpmaker
+sudo chown -R www-data:www-data /var/www/aplikasi_anda
+sudo chmod -R 755 /var/www/aplikasi_anda
+
