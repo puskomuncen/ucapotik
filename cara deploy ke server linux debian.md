@@ -57,14 +57,11 @@ server {
     server_name aplikasi.example.com; # Ganti dengan domain Anda
     root /var/www/ucapotik;
     index index.php index.html index.htm;
-
     access_log /var/log/nginx/aplikasi_access.log;
     error_log /var/log/nginx/aplikasi_error.log;
-
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
-
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/run/php/php8.2-fpm.sock;
@@ -72,10 +69,9 @@ server {
         include fastcgi_params;
     }
 
-    location ~ /\.ht {
+   location ~ /\.ht {
         deny all;
     }
-
     # Untuk anda (jika ada file khusus)
     location ~* ^/(api|css|js|images|uploads)/ {
         try_files $uri $uri/ =404;
